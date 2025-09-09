@@ -1,0 +1,255 @@
+\documentclass[11pt]{article}
+
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsfonts}
+%\usepackage{geometry}
+\usepackage[paper=a4paper, 
+            left=20.0mm, right=20.0mm, 
+            top=25.0mm, bottom=25.0mm]{geometry}
+\pagestyle{empty}
+\usepackage{graphicx}
+\usepackage{fancyhdr, lastpage, bbding, pmboxdraw}
+\usepackage[usenames,dvipsnames]{color}
+\definecolor{darkblue}{rgb}{0,0,.6}
+\definecolor{darkred}{rgb}{.7,0,0}
+\definecolor{darkgreen}{rgb}{0,.6,0}
+\definecolor{red}{rgb}{.98,0,0}
+\usepackage[colorlinks,pagebackref,pdfusetitle,urlcolor=darkblue,citecolor=darkblue,linkcolor=darkred,bookmarksnumbered,plainpages=false]{hyperref}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{ \fancyplain{}{Course Name} }
+%\chead{ \fancyplain{}{} }
+\rhead{ \fancyplain{}{\today} }
+%\rfoot{\fancyplain{}{page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[RO, LE] {Page \thepage\ of \textcolor{black}{\pageref{LastPage}} }
+\thispagestyle{plain}
+
+%%%%%%%%%%%% LISTING %%%
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\usepackage{verbatim} % used to display code
+\usepackage{fancyvrb}
+\usepackage{acronym}
+\usepackage{amsthm, amsmath}
+\usepackage{tikz}
+    \usetikzlibrary{calc, arrows, arrows.meta, positioning}
+\usepackage{amssymb,amsmath,stackengine}
+\stackMath
+\usepackage{ifthen}
+
+\VerbatimFootnotes % Required, otherwise verbatim does not work in footnotes!
+
+\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{lightlightgray}{gray}{0.93}
+
+\lstset{
+	%language=bash,                          % Code langugage
+	basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
+	keywordstyle=\color{OliveGreen},        % Keywords font ('*' = uppercase)
+	commentstyle=\color{gray},              % Comments font
+	numbers=left,                           % Line nums position
+	numberstyle=\tiny,                      % Line-numbers fonts
+	stepnumber=1,                           % Step between two line-numbers
+	numbersep=5pt,                          % How far are line-numbers from code
+	backgroundcolor=\color{lightlightgray}, % Choose background color
+	frame=none,                             % A frame around the code
+	tabsize=2,                              % Default tab size
+	captionpos=t,                           % Caption-position = bottom
+	breaklines=true,                        % Automatic line breaking?
+	breakatwhitespace=false,                % Automatic breaks only at whitespace?
+	showspaces=false,                       % Dont make spaces visible
+	showtabs=false,                         % Dont make tabls visible
+	columns=flexible,                       % Column format
+	morekeywords={__global__, __device__},  % CUDA specific keywords
+}
+
+\newcommand{\question}[1]{\section*{\normalsize #1}}
+% \newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+% \newcommand{\extraspace}[]{
+%     \begin{center}
+%         \textbf{Use this page for extra space.}
+%     \end{center}
+% }
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+%\DeclareMathOperator*{\vec}[1]{\textbf{#1}}
+
+\newcommand{\squig}{{\scriptstyle\sim\mkern-3.9mu}}
+\newcommand{\lsquigend}{{\scriptstyle\lhd\mkern-3mu}}
+\newcommand{\rsquigend}{{\scriptstyle\rule{.1ex}{0ex}\rhd}}
+\newcounter{sqindex}
+\newcommand\squigs[1]{%
+  \setcounter{sqindex}{0}%
+  \whiledo {\value{sqindex}< #1}{\addtocounter{sqindex}{1}\squig}%
+}
+\newcommand\rsquigarrow[2]{%
+  \mathbin{\stackon[2pt]{\squigs{#2}\rsquigend}{\scriptscriptstyle\text{#1\,}}}%
+}
+\newcommand\lsquigarrow[2]{%
+  \mathbin{\stackon[2pt]{\lsquigend\squigs{#2}}{\scriptscriptstyle\text{\,#1}}}%
+}
+
+
+\begin{document}
+\begin{center}
+    {\Large \textsc{Written Assignment 0}}
+\end{center}
+\begin{center}
+    Due: Thursday 09/18/2025 by 11:59pm EST
+\end{center}
+
+\section*{\textbf{Disclaimer}}
+%I encourage you to work together, I am a firm believer that we are at our best (and learn better) when we communicate with our peers. Perspective is incredibly important when it comes to solving problems, and sometimes it takes talking to other humans (or rubber ducks in the case of programmers) to gain a perspective we normally would not be able to achieve on our own. The only thing I ask is that you report who you work with: this is \textbf{not} to punish anyone, but instead will help me figure out what topics I need to spend extra time on/who to help. When you turn in your solution (please use some form of typesetting: do \textbf{NOT} turn in handwritten solutions), please note who you worked with.\newline
+Written assignments must be typeset. The \texttt{.tex} files that were used to generate this pdf are included with this assignment: I encourage you to use them when writing your solutions. These questions are \textbf{proof} questions, meaning that you will need to write a two-column proof with mathematical steps on the left column and english justification on the right column. Show all of your steps.\newline\newline
+
+\noindent Note that you are \textbf{NOT} allowed to use any help from LLMs, online solutions, old solutions, etc. when solving these problems. Your solutions are your own. You \textbf{are} allowed to chat with your classmates, but not with detail granular enough to copy each others work.
+
+
+
+\question{Question 1: Probablity and Statistics Review (20 points)}
+Let $X_1, X_2, \cdots, X_n$ be $n$ continuous random variables with expectations $\mathbb{E}[X_1], \mathbb{E}[X_2], \cdots, \mathbb{E}[X_n]$ and variances $\mathbb{V}[X_1], \mathbb{V}[X_2],\cdots, \mathbb{V}[X_n]$. For constants $a_1,a_2,\cdots,a_n$ prove the following:
+\begin{enumerate}[(a)]%[label=\alph*]
+    \item $\mathbb{E}\Big[\sum\limits_{i=1}^n a_iX_i\Big] = \sum\limits_{i=1}^n a_i\mathbb{E}[X_n]$.
+    \item $\mathbb{V}\Big[\sum\limits_{i=1}^n a_iX_i\Big] = \sum\limits_{i=1}^n a_i^2\mathbb{V}[X_i] + 2\sum\limits_{i=1}^{n-1}\sum\limits_{j=i+1}^n a_ia_jCov(X_i,X_j)$ where $Cov(X_i,X_j)$ is the covariance of $X_i$ and $X_j$.
+\end{enumerate}\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\question{Question 2: MLE Practice (20 points)}
+Consider $N$ i.i.d scalar samples $\{x_1, x_2, \cdots, x_N\}$ drawn from distribution $P$. For each distribution, calculate the MLEs of the parameters that control that distribution:
+\begin{enumerate}[(a)]%[label=\alph*]
+    \item $P = Pr[x;\theta]=\theta e^{-\theta x^2}$ for $x\ge 0$
+    \item $P = Pr[x;\theta]=\frac{1}{1-\theta}$ for $\theta\le x\le 1$
+    \item $P = Pr[x;\alpha,\beta]=\frac{1}{\pi\alpha\Big(1+(\frac{x-\beta}{\alpha})^2\Big)}$. For this problem, don't actually solve for $\alpha,\beta$. Instead just simplify as much as you can.
+\end{enumerate}
+\noindent You may assume that any value $x$ outside the support of $P$ has probability zero.\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\question{Question 3: Naive Bayes MLE (20 points)}
+Consider a binary dataset $D = \{(\vec{x}^{(i)}, y^{(i)})\}_{i=1}^M$ where each $\vec{x}^{(i)}\in\mathbb{B}^{n}$ and each $y^{(i)}\in\mathbb{B}$ drawn from random variables $X_1, X_2, \cdots, X_n, Y$. Let us define function $c(y)$ that counts the number of occurances that label $y$ appears in $D$:
+$$c(y) = \sum\limits_{(\vec{x}^{(i)}, y^{(i)})\in D} \mathbb{I}[y^{(i)}=y]$$
+where $\mathbb{I}[\cdot]$ is the indicator function. Let us define function $c(j,y)$ that counts the number of occurances that label $y$ appears in $D$ \textit{and} the corresponding observation $\vec{x}^{(j)}_i = 1$ (e.g. the $j^{th}$ entry of observation $\vec{x}^{(i)}$ is 1:
+$$c(j,y) = \sum\limits_{(\vec{x}^{(i)}, y^{(i)})\in D} \mathbb{I}[y^{(i)}=y, \vec{x}^{(i)}_j=1]$$
+Let us define paramter $b$ as $Pr[Y=1]$ and one parameter $b^{jy}$ for each $1\le j\le n$ as $Pr[X_j=1|Y=y]$. Prove that the following estimators are MLE for these parameters:
+\begin{enumerate}[(a)]
+    \item $\hat{b}_{MLE} = \frac{c(1)}{|D|}$
+    \item $\hat{b^{jy}}_{MLE} = \frac{c(j,y)}{c(y)}$
+\end{enumerate}\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\question{Question 4: Ridge and Lasso Regression (20 points)}
+Consider a fixed data matrix $\textbf{X}\in \mathbb{R}^{m\times d}$ where each row $\vec{x}^{(i)}\in \mathbb{R}^{d}$. We also have access to a ground truth vector $\vec{y}\in\mathbb{R}^{m}$, where each scalar $y^{(i)}$ is the ground truth for observation $\vec{x}^{(i)}$. Let us assume a linear model $y^{(i)} = \vec{w}^T\vec{x}^{(i)} + \epsilon^{(i)}$ where $\vec{w}\in \mathbb{R}^{d}$ and $\epsilon^{(i)}\in \mathbb{R}$ are unknown.\newline
+
+\noindent We want to figure out the value of $\vec{w}$ that minimizes the squared error to our ground truth:
+$$\vec{w}^* = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \mathcal{L}(\vec{w}) = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \sum\limits_{i=1}^m \Big(y^{(i)} - \vec{w}^T\vec{x}^{(i)}\Big)^2$$
+
+\noindent However, we don't want just $\textbf{any}$ solution. Instead, we have some preferences regarding what solutions we want our optimization algorithm to find. For instance, if we define solutions with small values to be better than solutions with large values, we would change our objective $\mathcal{L}$ accordingly:
+$$\vec{w}^* = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \mathcal{L}(\vec{w},\lambda_r) = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \Bigg(\sum\limits_{i=1}^m \Big(y^{(i)} - \vec{w}^T\vec{x}^{(i)}\Big)^2\Bigg) + \lambda_r ||\vec{w}||_2^2$$
+where $\lambda_r\in \mathbb{R}^{>0}$ is a hyperparameter to control the weight of the l2 term relative to the squared error. This is called \textbf{Ridge Regression}.\newline\newline
+
+\noindent If we instead want to try and get the sparsest solution, we would change our objective $\mathcal{L}$ accordingly:
+$$\vec{w}^* = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \mathcal{L}(\vec{w},\lambda_l) = \argmin\limits_{\vec{w}\in \mathbb{R}^d} \Bigg(\sum\limits_{i=1}^m \Big(y^{(i)} - \vec{w}^T\vec{x}^{(i)}\Big)^2\Bigg) + \lambda_l ||\vec{w}||_1$$
+where $\lambda_l\in \mathbb{R}^{>0}$ is a hyperparameter to control the weight of the l1 term relative to the squared error. This is called \textbf{Lasso Regression}.\newline\newline
+
+\noindent With these two regression variants, please answer the following questions:
+\begin{enumerate}[(a)]
+    \item Derive a closed form expression for $\vec{w}^*$ for Ridge Regression. Your expression should be a function of $\textbf{X}, \vec{y},$ and $\lambda_r$.
+
+    \item Prove that Lasso Regression is not differentiable at some points.
+
+    \item Prove that the maximum value for $\lambda_l$ is $2||\textbf{X}^T\vec{y}||_\infty$ (i.e. for any $\lambda_l\ge 2||\textbf{X}^T\vec{y}||_\infty$, the solution $\vec{w}^*$ is guaranteed to be the zero vector). Prove this using the following three steps:
+    \begin{enumerate}[(i)]
+        \item The one-sided directional derivative of function $f(x)$ in the direction $\vec{u}\in \mathbb{R}^d$ is defined as follows:
+$$f'(x;\vec{u}) = \lim\limits_{h\rightarrow 0^+} \frac{f(x+h\vec{u})-f(x)}{h}$$
+where $\vec{u}$ is a unit vector. Compute the one-sided directional derivative of our objective function $\mathcal{L}(\vec{0},\lambda_l)$ in direction $\vec{u}$. Your expression $\mathcal{L}'(\vec{0},\lambda_l;\vec{u})$ should be a function of $\textbf{X}, \vec{y}, \lambda_l,$ and $\vec{u}$.
+
+        \item Show that for any $\vec{u}\neq\vec{0}$, $\mathcal{L}'(\vec{0},\lambda_l;\vec{u})\ge 0$ iff $\lambda_l\ge C$ where $C$ is some constant that depends on $\textbf{X}, \vec{y},$ and $\vec{u}$. Find the expression for $C$.
+
+        \item Due to the convexity of Lasso regression, $\vec{w}^*$ is a minimizer of $\mathcal{L}(\vec{w},\lambda_l)$ iff $\forall \vec{u}\neq\vec{0},$ $\mathcal{L}'(\vec{w}^*,\lambda_l;\vec{u})\ge 0$. Show that $\vec{w}=\vec{0}$ is the minimizer of $\mathcal{L}(\vec{w},\lambda_l)$ iff $\lambda_l\ge 2||\textbf{X}^T\vec{y}||_\infty$.
+    \end{enumerate}
+\end{enumerate}\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\question{Question 5: Matrix Derivatives and Multi-Target Linear Regression (20 points)}
+Consider a fixed data matrix $\textbf{X}\in \mathbb{R}^{m\times d}$ where each row $\vec{x}^{(i)}\in \mathbb{R}^{d}$. We also have access to a ground truth matrix $\textbf{Y}\in\mathbb{R}^{m\times k}$, where each row $\vec{y}^{(i)}\in\mathbb{R}^{k}$ is the ground truth for observation $\vec{x}^{(i)}$. Let us assume a linear model $\textbf{Y} = \textbf{X}\textbf{W} + \epsilon$ where $\textbf{W}\in \mathbb{R}^{d\times k}$ is unknown and each $\epsilon^{(i)}_j\in \mathbb{R}$ is drawn from a normal distribution with mean 0 and variance $\sigma$. Since each $\epsilon^{(i)}_j$ is drawn from the same distribution, the matrix $\epsilon$ is drawn from a multivariate gaussian $\mathcal{N}(\vec{0}, \sigma\textbf{I})$ with mean vector $\vec{0}$ and covariance $\sigma \textbf{I}$ where $\textbf{I}$ is the identity matrix.\newline
+
+\noindent Rearranging the linear model, we can see
+\begin{align*}
+    \textbf{Y} &= \textbf{X}\textbf{W} + \epsilon   &\text{the model}\\
+    \textbf{X}\textbf{W} - \textbf{Y} &= \epsilon   &\text{algebra}\\
+    \textbf{X}\textbf{W} - \textbf{Y} &\sim \mathcal{N}(\vec{0}, \sigma\textbf{I}) &\epsilon\sim\mathcal{N}(\vec{0}, \sigma\textbf{I})\rightarrow  \textbf{X}\textbf{W} - \textbf{Y}\sim\mathcal{N}(\vec{0}, \sigma\textbf{I})
+\end{align*}
+then if we wish to find the value of $\textbf{W}$, we will want to maximize this probability:
+$$\textbf{W}^* = \argmax\limits_{\textbf{W}\in \mathbb{R}^{d\times k}} \mathcal{L}(\textbf{W}) = \argmax\limits_{\textbf{W}\in \mathbb{R}^{d\times k}} \log Pr[\textbf{Y} | \textbf{X};\textbf{W}] = \argmax\limits_{\textbf{W}\in \mathbb{R}^{d\times k}} \log \mathcal{N}(\textbf{Y} - \textbf{X}\textbf{W} ; \vec{0}, \sigma\textbf{I})$$
+Using this setup, please show the following:
+\begin{enumerate}[(a)]
+    \item Show that $\argmax\limits_{\textbf{W}\in \mathbb{R}^{d\times k}} \mathcal{L}(\textbf{W}) \rightarrow \argmin\limits_{\textbf{W}\in \mathbb{R}^{d\times k}} ||\textbf{Y} - \textbf{X}\textbf{W}||_F^2$
+
+    \item Show that $\frac{\partial ||\textbf{Y} - \textbf{X}\textbf{W}||_F^2}{\partial } = -2\textbf{X}^T(\textbf{Y} - \textbf{X}\textbf{W})$
+
+    \item Show that $\textbf{W}^*_{MLE} = (\textbf{X}^T\textbf{X})^{-1}\textbf{X}^T\textbf{Y}$
+\end{enumerate}
+
+\end{document}
+
