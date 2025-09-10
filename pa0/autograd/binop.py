@@ -60,9 +60,9 @@ class BinaryOp(Expression):
                         ), 
                         Op(2),
                         BinaryOp(
-                            self.rhs.differentiate(), 
+                            self.lhs, 
                             Op(3), 
-                            self.lhs
+                            self.rhs.differentiate()
                         )
                     ),
                     Op(4),

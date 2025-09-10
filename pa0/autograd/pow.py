@@ -5,7 +5,7 @@ from .const import Constant
 class Power(Expression):
     def __init__(self: ExpressionType, base: Expression, exp: float) -> None:
         self.base: Expression = base
-        self.exp: float = exp
+        self.exp: float = float(exp)
 
     def __repr__(self: ExpressionType) -> str:
         return f"Power({self.base}, {self.exp})"

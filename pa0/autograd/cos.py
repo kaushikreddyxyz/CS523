@@ -13,7 +13,7 @@ class Cos(Expression):
         return BinaryOp(
                     BinaryOp(
                         Constant(-1),
-                        Op(2),
+                        Op(3),
                         self.arg.differentiate()
                     ),
                     Op(3), 
